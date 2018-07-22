@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  # mariadb:
+  #   image: 'mariadb:latest'
+  #   environment:
+  #     - MARIADB_USER=root
+  #     - MYSQL_ROOT_PASSWORD=example
+  db:
+    image: mysql:5.7
+    # container_name: myciapp
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: example
+    ports:
+      - "9906:3306"
+  # php:
+  #   image: 'webdevops/php-apache-dev'
+  #   ports:
+  #     - '8086:80'
+  #     volumes:
+  #       - './:/var/www/html/'
+  #       depends_on:
+  #         - mariadb
+  web:
+    image: 'webdevops/php-apache-dev'
+    container_name: myciapp
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    ports:
+      - "8100:80"
+    stdin_open: true
+    tty: true
