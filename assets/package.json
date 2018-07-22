@@ -1,0 +1,16 @@
+{
+  "name": "foodtruck-app",
+  "version": "1.0.0",
+  "description": "A example of the foodtruck app i'm writing.",
+  "main": "index.php",
+  "scripts": {
+    "test": "index.php"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.3.1",
+    "normalize.css": "^8.0.0"
+  }
+}

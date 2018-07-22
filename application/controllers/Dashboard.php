@@ -18,7 +18,7 @@ class Dashboard extends CI_Controller {
 	 * map to /index.php/dashboard/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	
+
 	public function __construct()
 	{
 		# code...
@@ -28,10 +28,10 @@ class Dashboard extends CI_Controller {
 	}
 	public function index()
 	{
-
-		$this->load->view('dashboard_message');
+		$data['pageTitle'] = 'Dashboard';
+		$this->load->view('dashboard/index',$data);
 	}
 	public function loadLocations() {}
 	public function loadTrucks() {}
-	
+
 }
