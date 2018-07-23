@@ -10,6 +10,11 @@
   <link rel="stylesheet" href="assets/node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
   <!-- my custom CSS [shoyanet::jolivetteme] -->
   <link rel="stylesheet" href="assets/css/styles.css">
-  <title>ShoyaFood: <?=$pageTitle?></title>
+
+  <!-- prevent caching-->
+  <link  rel="stylesheet" href="http://localhost/style.css?<?php echo time(); ?>" />
+
+
+  <title>ShoyaFood</title>
 </head>
 <body>

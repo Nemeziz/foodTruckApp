@@ -25,6 +25,11 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 		$this->load->model('dashboard_model');
 		$this->load->helper('url_helper');
+
+		$this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+		$this->output->set_header('Pragma: no-cache');
+		$this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		
 	}
 	public function index()
 	{
