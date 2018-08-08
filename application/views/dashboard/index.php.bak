@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="assets/node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <title>Foodtruck Finder Registration</title>
+</head>
+<div class="form-group">
+<body>
+    <main class="container-fluid">
+      <a href="/"><button class="btn btn-info btn-lg">Shoyanet Foodtruck App</button></a>
+
+
+      <h3 class="well">Registration</h3>
+      <hr />
+      <section class="information">
+        <form>
+          <!-- Email field -->
+          <div class="form-group">
+            <label for="email">Your email</label>
+
+            <span class="emailSuccess label label-success"
+            style="padding:10px;margin:10px;display:none;
+            ">Great name. Let's move on.</span>
+
+            <span class="emailFail label  label-danger"
+            style="padding:10px;margin:10px;display:none;
+            ">That's not going to cut it.</span>
+            <input type="email" class="form-control" id="email" placeholder="name@example.com"><span class="email-error label label-danger"></span>
+
+
+            <div class="assurance-message" style="padding:3px;">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+          </div>
+          <!-- Username Field -->
+          <div class="form-group">
+            <label for="username">Your username</label>
+
+            <span class="usernameSuccess label label-success"
+            style="padding:10px;margin:10px;display:none;
+            ">Great name. Let's move on.</span>
+
+            <span class="usernameFail label  label-danger"
+            style="padding:10px;margin:10px;display:none;
+            ">That's not going to cut it.</span>
+            <input type="text" class="form-control" id="username" placeholder="bobsheppard"><span class="username-error label label-danger"></span>
+
+
+            <div class="assurance-message" style="padding:3px;">
+              <small id="usernameHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+            </div>
+          </div>
+          <!-- Register Button -->
+          <div class="form-group form-check container text-center">
+            <button type="button" id="register" class="btn btn-block btn-grey">Create Account</button>
+          </div>
+        </form>
+      </section>
+      
+    </main>
+
+
+
+<script src="assets/node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
+<script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
+<script>
+
+
+  $('#email').on('blur',function(){
+    //Check if the email is registered
+    var thisEmail = $('#email').val();
+    formData = {email:thisEmail};
+
+    //Check for existing EMAIL (AJAX)
+    $.post('/dashboard/isEmailRegistered',formData,function(data){
+      if (data==1) {
+        $('.emailFail').css("display","inline");
+        $('#email').hide();
+        $('#emailHelp').html('Are you ready to try this shit again? <a href="/?retry=yes">Yes</a> || <a href="#no">Hell No!</a>');
+      } else {
+        $('.emailSuccess').css("display","inline");
+      }
+    });
+    // alert(thisEmail.length);
+    if (thisEmail.length<=3) {
+      $('button').css("classs","btn-danger");
+      $('button').html("Please add an email!");
+    } else {
+      $('button');
+    }
+
+  });
+  $('#username').on('blur',function(){
+    //Check if the email is registered
+    var thisUsername = $('#username').val();
+    formData = {username:thisUsername};
+
+    //Check for existing EMAIL (AJAX)
+    $.post('/dashboard/isUserRegistered',formData,function(data){
+      if (data==1) {
+        $('.usernameFail').css("display","inline");
+        $('#username').hide();
+        $('#usernameHelp').html('Are you ready to try this shit again? <a href="/?retry=yes">Yes</a> || <a href="#no">Hell No!</a>');
+      } else {
+        $('.usernameSuccess').css("display","inline");
+      }
+    });
+
+  });
+  //CLICK THE GET STARTED BUTTON
+  $('#register').on('click',function(){
+
+    var jqEmail = $('#email').val().length;
+    var jqUsername = $('#username').val().length;
+    // alert(jqEmail.length);
+    if (jqEmail<=3 && jqUsername<=3) {
+
+    }
+
+  })
+
+</script>
+</body>
+</html>

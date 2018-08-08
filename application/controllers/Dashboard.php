@@ -29,11 +29,18 @@ class Dashboard extends CI_Controller {
 		$this->output->set_header('Pragma: no-cache');
 		$this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 
-	}
-	public function index(){
-		$data['pageTitle'] = 'Dashboard';
+		if ($this->isRegistered()) {
+			$data['pageTitle'] = 'Dashboard {username}';
+			$this->load->view('dashboard/index');
+		} else {
+			$data['pageTitle'] = 'Registraton';
+			$this->load->view('dashboard/register-user',$data);
+		}
 
-		$this->load->view('dashboard/index',$data);
+
+	}
+	public function index() {
+
 	}
 	/**
 	 * USED IN AJAX REQUEST TO SEE IF THE USER EXISTS ALREADY.
@@ -45,19 +52,18 @@ class Dashboard extends CI_Controller {
 
 		$emailResults = $this->dashboard_model->db->query("SELECT id,email FROM users WHERE ((email LIKE ?)) AND deleted = ?",array($email,0))->num_rows();
 
-		// echo "Hello, World {$emailResults}";die;
 		if ($emailResults) {
-			echo json_encode(["error"=>"Email Registered! Please choose another name"]);
+			return true;
 		}
-
-
 	}
-	public function isUserRegistered($username) {
+	public function isUserRegistered() {
+		$username = $this->input->post('username');
 
-		$users = $this->dashboard_model->db->query("SELECT id,username FROM users WHERE ((username LIKE ?)) AND deleted = ?",array($username,0))->num_rows();
 
-		if ($users) {
-			echo json_encode(["error"=>"User Exists! Please choose another name"]);
+		$usernameResults = $this->dashboard_model->db->query("SELECT id,username FROM users WHERE ((username LIKE ?)) AND deleted = ?",array($username,0))->num_rows();
+
+		if ($usernameResults) {
+			return true;
 		}
 	}
 	public function register() {
@@ -65,22 +71,29 @@ class Dashboard extends CI_Controller {
 
 		$username = $this->input->post('username');
 		$email 		= $this->input->post('email');
-
-
-		if ($this->isEmailRegistered($email)){
-			$messages = ['error'=>"Email Alreay Exists. Please choose another Email."];
-			echo json_encode($messages);
-
-		}
-		if ($this->isUserRegistered($username)){
-			$messages = ['error'=>"Username Alreay Exists. Please choose another username."];
-			echo json_encode($messages);
+		$data = [$username,$email];
+		$error = [];
+		if ($this->isEmailRegistered()) {
+			$message = ["message"=>"Email in use. Please choose another email!"];
+			array_push($error,$message);
 
 		}
-		// return json_encode(true);
-		// if (isUserRegistered($username, $email){
-		// 	return json_encode("This user already exists");
-		// })
-		// return json_encode(array('mitchell','edwin','jolivette'));
+		if ($this->isUserRegistered()) {
+			$message = ["message"=>"Username in use. Please choose another username!"];
+			array_push($error,$message);
+
+		}
+		//If an error was returned
+		if ($error) {
+			echo json_encode($error);
+			return false;
+		}
+		//Anyways, let's get back to registering this person.
+		if ($this->dashboard_model->insertData($data)) {
+			return true;
+		}
+	}
+	public function isRegistered() {
+		return true;
 	}
 }

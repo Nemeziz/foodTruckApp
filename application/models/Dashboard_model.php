@@ -25,7 +25,12 @@ class Dashboard_model extends CI_Model {
 			}
 	}
 	public function insertData($data) {
-		echo "Inserting data ...";
+		$data = [
+			"email"=> $this->input->post('email'),
+			"username"=>$this->input->post('username')
+		];
+
+		return $this->db->insert('users',$data);
 
 	}
 	public function register() {
